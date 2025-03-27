@@ -10,7 +10,11 @@ function getFirstCapitalLetters(str?:string| null){
     const match = (str || "").match(/[A-Z]/g);
     return match ? match.slice(0.,2).join("")    : "GT";
 }
-function UserButton() {
+function UserButton({onSignIn, onSignOut}:{
+
+    onSignIn: () => Promise<void>;
+    onSignOut: () => Promise<void>;
+}) {
 
     const {data:session, status} = useSession()
     return (
@@ -30,14 +34,18 @@ function UserButton() {
 
                     <DropdownMenuContent>
 
-                        <DropdownMenuItem onClick={() => { signOut()}}>
+                        <DropdownMenuItem
+                            onClick={() => {
+                                onSignOut();
+                            }}
+                        >
                             Sign Out
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             )}
             {status === "unauthenticated" && (
-                <Button onClick={() => signIn()}>
+                <Button onClick={() => onSignIn()}>
                     Sign in
                 </Button>
 
