@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import {signIn, signOut, useSession} from "next-auth/react";
+import {useSession} from "next-auth/react";
 import {DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger} from "@/components/ui/dropdown-menu";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar";
 import {Button} from "@/components/ui/button";
@@ -24,7 +24,7 @@ function UserButton({onSignIn, onSignOut}:{
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Avatar>
-                            <AvatarImage src={session?.user?.image!}/>
+                            <AvatarImage src={session?.user?.image}/>
 
                             <AvatarFallback>
                                 {getFirstCapitalLetters(session?.user?.name)}
