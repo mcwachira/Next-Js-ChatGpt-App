@@ -24,7 +24,7 @@ function UserButton({onSignIn, onSignOut}:{
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                         <Avatar>
-                            <AvatarImage src={session?.user?.image}/>
+                            <AvatarImage src={session?.user?.image!}/>
 
                             <AvatarFallback>
                                 {getFirstCapitalLetters(session?.user?.name)}
