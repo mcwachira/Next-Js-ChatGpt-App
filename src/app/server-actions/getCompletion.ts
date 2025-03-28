@@ -41,5 +41,7 @@ export async function getCompletion(
     }
 
     console.log( response.choices[0].message);
-    return { messages };
+    return { messages,
+        id: chatId
+    };
 }
