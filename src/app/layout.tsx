@@ -30,6 +30,7 @@ export default async function RootLayout({
 
     const session = await auth();
 
+    console.log(session);
     if(session?.user){
         session.user = {
             name:session.user.name,
