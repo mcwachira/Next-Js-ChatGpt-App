@@ -1,0 +1,82 @@
+-- Create the table chats
+
+CREATE TABLE chats (
+id SERIAL PRIMARY KEY,
+user_email VARCHAR(255) NOT NULL,
+name VARCHAR(255) NOT NULL,
+timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+
+);
+
+-- 2. Enable RLS
+alter table chats enable row level security;
+
+-- 3. Create Policy
+
+create policy "public can insert any chat"
+ON chats
+FOR INSERT
+TO anon
+with check (
+true
+);
+
+
+create policy "public can read chats"
+on chats
+for SELECT
+To anon
+using (true);
+
+create policy  "public can update any chat"
+ON chats
+FOR UPDATE
+TO anon
+USING (true);
+
+create policy  "public can delete any chat"
+ON chats
+FOR DELETE
+TO anon
+USING (true);
+
+-- Create the table messages
+CREATE TABLE messages (
+id SERIAL PRIMARY KEY,
+chat_id INT NOT NULL,
+role VARCHAR(32) NOT NULL,
+content TEXT NOT NULL,
+CONSTRAINT fk_chat FOREIGN KEY(chat_id) REFERENCES chats(id)
+
+);
+
+-- 2. Enable RLS
+alter table messages enable row level security;
+
+-- 3. Create Policy
+
+create policy "public can insert any message"
+ON messages
+FOR INSERT
+TO anon
+with check (
+true
+);
+
+create policy "public can read messages"
+on messages
+for SELECT
+To anon
+using (true);
+
+create policy "public can update any message"
+ON messages
+FOR UPDATE
+TO anon
+USING (true);
+
+create policy "public can delete any message"
+ON messages
+FOR DELETE
+TO anon
+USING (true);

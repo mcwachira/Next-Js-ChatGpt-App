@@ -12,10 +12,10 @@ export default  async function Home() {
     <main className="p-5">
       <h1 className="text-4xl font-bold">Welcome To GPT Chat</h1>
 
-        {!session?.user?.name && <div>You need to be logged in to use this chat</div>}
+        {!session?.user?.email && <div>You need to be logged in to use this chat</div>}
 
 
-        {session?.user?.name &&  <>
+        {session?.user?.email &&  <>
             <Separator className="my-5"/>
             <Chat/>
         </>}

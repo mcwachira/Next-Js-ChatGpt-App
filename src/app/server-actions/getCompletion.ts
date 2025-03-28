@@ -1,5 +1,7 @@
 "use server"
 import OpenAI  from "openai";
+import {auth} from "@/auth";
+import {createChat, updateChat} from "@/db";
 const openai = new OpenAI({
     baseURL: 'https://openrouter.ai/api/v1',
     apiKey: process.env.OPENAI_API_KEY,
@@ -7,6 +9,7 @@ const openai = new OpenAI({
 
 
 export async function getCompletion(
+    id:number | null,
     messageHistory:{
         role:"user" | "assistant";
         content:string;
@@ -26,6 +29,16 @@ export async function getCompletion(
             content: string;
         },
     ];
+
+    const session = await auth()
+    let chatId = id;
+    if(!chatId){
+        chatId = await createChat(session?.user?.email!,
+            messageHistory[0].content,
+            messages);
+    }else{
+        await updateChat(chatId, messages)
+    }
 
     console.log( response.choices[0].message);
     return { messages };
