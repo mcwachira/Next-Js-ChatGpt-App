@@ -18,7 +18,10 @@ export async function getCompletion(
 
     const response = await openai.chat.completions.create({
         model: "deepseek/deepseek-chat-v3-0324:free",
-        messages: messageHistory,
+        messages: messageHistory.map((message) => ({
+            role:message.role,
+            content:message.content,
+        })),
     });
     console.log(response);
 

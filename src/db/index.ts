@@ -41,14 +41,16 @@ export async function createChat(
 }
 
 export async function getChat(chatId: number): Promise<ChatWithMessages | null> {
+    console.log(chatId)
     // Fetch chat
     const { data: chat, error: chatError } = await supabase
         .from("chats")
         .select("*")
         .eq("id", chatId)
-        .single();
+        .maybeSingle()
+    console.log("Data received:", chat);
 
-    if (chatError || !chat) {
+    if (chatError || !chat[0]) {
         console.error("Error fetching chat:", chatError);
         return null;
     }
