@@ -64,7 +64,7 @@ export async function getChat(
 
   if (messagesError) {
     console.error("Error fetching messages:", messagesError);
-    return nul;
+    return null;
   }
 
   return {
