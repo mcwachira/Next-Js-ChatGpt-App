@@ -68,7 +68,7 @@ export async function getChat(
   }
 
   return {
-    ...chat,
+    ...chat[0],
     messages: messages.map((msg) => ({
       ...msg,
       role: msg.role as "user" | "assistant",
