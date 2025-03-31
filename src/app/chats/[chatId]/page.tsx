@@ -22,9 +22,9 @@ export default async function ChatDetail({
   const session = await getServerSession();
   // console.log(session.user);
 
-  // if (!session || chat?.user_email !== session?.user?.email) {
-  //   return redirect("/");
-  // }
+  if (!session || chat?.user_email !== session?.user?.email) {
+    return redirect("/");
+  }
 
   return (
     <main className="pt-5">

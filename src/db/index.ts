@@ -44,14 +44,14 @@ export async function getChat(
 ): Promise<ChatWithMessages | null> {
   console.log(chatId);
   // Fetch chat
-  const { data: chat, error: chatError } = await supabase
+  const { data: chats, error: chatError } = await supabase
     .from("chats")
     .select("*")
     .eq("id", chatId);
   // .maybeSingle()
   // console.log("Data received:", chat?.message);
 
-  if (chatError || !chat[0]) {
+  if (chatError || !chats[0]) {
     console.error("Error fetching chat:", chatError);
     return null;
   }
@@ -68,7 +68,7 @@ export async function getChat(
   }
 
   return {
-    ...chat[0],
+    ...chats[0],
     messages: messages.map((msg) => ({
       ...msg,
       role: msg.role as "user" | "assistant",
