@@ -17,6 +17,7 @@ function UserButton({onSignIn, onSignOut}:{
 }) {
 
     const {data:session, status} = useSession()
+    
     return (
         <div>
 
