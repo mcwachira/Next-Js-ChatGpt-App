@@ -5,7 +5,6 @@ import { Separator } from "@/components/ui/separator";
 
 import { getChats } from "@/db";
 
-
 export default async function ChatMenu() {
   const session = await auth();
   const chats = await getChats(session?.user?.email!);
@@ -26,3 +25,4 @@ export default async function ChatMenu() {
       </div>
     </>
   );
+}
