@@ -2,10 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Link from "next/link";
-import {SessionProvider} from "next-auth/react"
+import { SessionProvider } from "next-auth/react";
 import UserButton from "@/app/components/UserButton";
-import {auth, signIn, signOut} from "@/auth";
-
+import { auth, signIn, signOut } from "@/auth";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -24,60 +23,56 @@ export const metadata: Metadata = {
 
 export default async function RootLayout({
   children,
+  chats,
 }: Readonly<{
   children: React.ReactNode;
+  chats: React.ReactNode;
 }>) {
+  const session = await auth();
 
-    const session = await auth();
-
-    console.log(session);
-    if(session?.user){
-        session.user = {
-            name:session.user.name,
-            email:session.user.email,
-            image:session.user.image,
-        }
-    }
+  console.log(session);
+  if (session?.user) {
+    session.user = {
+      name: session.user.name,
+      email: session.user.email,
+      image: session.user.image,
+    };
+  }
 
   return (
+    <SessionProvider basePath="/api/auth" session={session}>
+      <html lang="en">
+        <body
+          className={`${geistSans.variable} ${geistMono.variable} antialiased px-2 mdLpx-5`}
+        >
+          <header className="text-white font-bold bg-green-900 text-2xl flex p-2 mb-3 rounded-b-lg shadow-gray-700 shadow-lg">
+            <div className="flex flex-grow">
+              <Link href="/">GPT chat</Link>
+              <Link href="/about" className="ml-5 font-light">
+                About
+              </Link>
+            </div>
 
-      <SessionProvider basePath="/api/auth" session={session}>
+            <div>
+              <UserButton
+                onSignIn={async () => {
+                  "use server";
+                  await signIn();
+                }}
+                onSignOut={async () => {
+                  "use server";
+                  await signOut();
+                }}
+              />
+            </div>
+          </header>
 
-
-    <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased px-2 mdLpx-5`}
-      >
-   <header className="text-white font-bold bg-green-900 text-2xl flex p-2 mb-3 rounded-b-lg shadow-gray-700 shadow-lg">
-       <div className="flex flex-grow">
-           <Link href="/">GPT chat</Link>
-           <Link href="/about" className="ml-5 font-light">
-               About
-           </Link>
-       </div>
-
-       <div>
-           <UserButton
-               onSignIn={async() => {
-               "use server";
-               await signIn()}}
-
-               onSignOut={async() => {
-                   "use server";
-                   await signOut()}}/>
-       </div>
-   </header>
-
-   <div className="flex  col md:flex-row">
-       <div className="flex-grow">
-           {children}
-       </div>
-   </div>
-
-      </body>
-    </html>
-
-
-      </SessionProvider>
+          <div className="flex  col md:flex-row">
+            {chats}
+            <div className="flex-grow">{children}</div>
+          </div>
+        </body>
+      </html>
+    </SessionProvider>
   );
 }
