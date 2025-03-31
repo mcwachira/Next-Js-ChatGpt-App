@@ -47,8 +47,8 @@ export async function getChat(chatId: number): Promise<ChatWithMessages | null> 
         .from("chats")
         .select("*")
         .eq("id", chatId)
-        .maybeSingle()
-    console.log("Data received:", chat);
+        // .maybeSingle()
+    console.log("Data received:", chat.message);
 
     if (chatError || !chat[0]) {
         console.error("Error fetching chat:", chatError);
@@ -82,6 +82,7 @@ export async function getChats(userEmail: string): Promise<Chat[]> {
         .select("*")
         .eq("user_email", userEmail);
 
+        console.log(chats)
     if (error) {
         console.error("Error fetching chats:", error);
         return [];
